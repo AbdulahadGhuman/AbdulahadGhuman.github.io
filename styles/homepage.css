@@ -1,0 +1,72 @@
+html {
+    background-image: url(../images/background.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+body {
+    margin: 0px;
+}
+#NavBar {
+    background-color: #1f1f1f;
+    width: 100%;
+    overflow: auto;
+    margin-top: 0px;
+}
+h2 {
+    color: white;
+    display: inline-block;
+    margin-top: 0px;
+    margin-bottom: 0px;    
+}
+#AboutMe {
+    display: flex;
+    justify-content: center;
+    width: 1000px;
+    text-align: center;
+    margin: auto;
+}
+#MySkills {
+    background-color: white;
+    width: 300px;
+    overflow: auto;
+    margin-left: 310px;
+    margin-top: 20px;
+}
+img {
+    width: 100%;
+    height: 120px;
+}
+h3 {
+    margin: 5px;
+    text-align: center;
+}
+div{
+    display: table;
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+#Learning, #WantToLearn {
+    background-color: white;
+    width: 300px;
+    overflow: auto;
+    margin-left: 200px;
+    margin-top: 20px;
+}
+#NavLinks {
+    float: right;
+    margin: 0 auto;
+}
+a {
+    color: white;
+    display: block;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+#Website {
+    padding: 14px 16px;
+}
+a:hover {
+    background-color: #363535;
+}
