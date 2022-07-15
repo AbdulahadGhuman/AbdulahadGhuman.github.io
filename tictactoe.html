@@ -60,7 +60,7 @@
                     GameID: id
                 }
             )
-            window.location.href = "tictactoegame.html?gameID=" + id;
+            window.location.href = "http://127.0.0.1:" + location.port + "/tictactoegame.html?gameID=" + id;
         })
         JoinGame.addEventListener("click", async function() {
             var code = window.prompt("Enter Code", "");
@@ -69,7 +69,7 @@
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach((doc) => {  
                 if (doc.id === code) {
-                    window.location.href = "tictactoegame.html?gameID=" + code;
+                    window.location.href = "http://127.0.0.1:" + location.port + "/tictactoegame.html?gameID=" + code;
                     found = true;
                 }
             });

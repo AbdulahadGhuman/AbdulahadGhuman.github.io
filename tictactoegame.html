@@ -79,6 +79,7 @@
                         }
                     )
                     placed = true;
+                    checkStatus();
                 } else if (count % 2 == 1 && newButton.textContent == "") {
                     const docRef = await updateDoc (
                         ref, {
@@ -86,6 +87,7 @@
                         }
                     )
                     placed = true;
+                    checkStatus();
                 }
                 if(placed == true) {
                     count = count + 1;
@@ -113,6 +115,25 @@
                 }
             )
         }
+        async function checkStatus () {
+            const q = query(collection(db, "/GameID/" + window.location.href.substring(window.location.href.length - 10) + "/Game"));
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {  
+                if((doc.data().One == "O" && doc.data().Two == "O" && doc.data().Three == "O") || (doc.data().Four == "O" && doc.data().Five == "O" && doc.data().Six == "O") || (doc.data().Seven == "O" && doc.data().Eight == "O" && doc.data().Nine == "O") || (doc.data().One == "O" && doc.data().Four == "O" && doc.data().Seven == "O") || (doc.data().Two == "O" && doc.data().Five == "O" && doc.data().Eight == "O") || (doc.data().Three == "O" && doc.data().Six == "O" && doc.data().Nine == "O") || (doc.data().One == "O" && doc.data().Five == "O" && doc.data().Nine == "O") || (doc.data().Three == "O" && doc.data().Five == "O" && doc.data().Seven == "O")) {
+                    window.alert("Player One Won");
+                    Restart.style.display = "block";
+                    count = 0;
+                } else if ((doc.data().One == "X" && doc.data().Two == "X" && doc.data().Three == "X") || (doc.data().Four == "X" && doc.data().Five == "X" && doc.data().Six == "X") || (doc.data().Seven == "X" && doc.data().Eight == "X" && doc.data().Nine == "X") || (doc.data().One == "X" && doc.data().Four == "X" && doc.data().Seven == "X") || (doc.data().Two == "X" && doc.data().Five == "X" && doc.data().Eight == "X") || (doc.data().Three == "X" && doc.data().Six == "X" && doc.data().Nine == "X") || (doc.data().One == "X" && doc.data().Five == "X" && doc.data().Nine == "X") || (doc.data().Three == "X" && doc.data().Five == "X" && doc.data().Seven == "X")) {
+                    window.alert("Player Two Won");
+                    Restart.style.display = "block";
+                    count = 0;
+                } else if (doc.data().One !== "" && doc.data().Two !== "" && doc.data().Three !== "" && doc.data().Four !== "" && doc.data().Five !== "" && doc.data().Six !== "" && doc.data().Seven !== "" && doc.data().Eight !== "" && doc.data().Nine !== "") {
+                    window.alert("It's a draw");
+                    Restart.style.display = "block";
+                    count = 0;
+                }
+            });
+        }
         Restart.addEventListener("click", function() { 
             ClearBoard();
             Restart.style.display = "none";
@@ -130,21 +151,6 @@
                 Seven.textContent = doc.data().Seven;
                 Eight.textContent = doc.data().Eight;
                 Nine.textContent = doc.data().Nine;
-            });
-            querySnapshot.forEach((doc) => {  
-                if((doc.data().One == "O" && doc.data().Two == "O" && doc.data().Three == "O") || (doc.data().Four == "O" && doc.data().Five == "O" && doc.data().Six == "O") || (doc.data().Seven == "O" && doc.data().Eight == "O" && doc.data().Nine == "O") || (doc.data().One == "O" && doc.data().Four == "O" && doc.data().Seven == "O") || (doc.data().Two == "O" && doc.data().Five == "O" && doc.data().Eight == "O") || (doc.data().Three == "O" && doc.data().Six == "O" && doc.data().Nine == "O") || (doc.data().One == "O" && doc.data().Five == "O" && doc.data().Nine == "O") || (doc.data().Three == "O" && doc.data().Five == "O" && doc.data().Seven == "O")) {
-                    window.alert("Player One Won");
-                    Restart.style.display = "block";
-                    count = 0;
-                } else if ((doc.data().One == "X" && doc.data().Two == "X" && doc.data().Three == "X") || (doc.data().Four == "X" && doc.data().Five == "X" && doc.data().Six == "X") || (doc.data().Seven == "X" && doc.data().Eight == "X" && doc.data().Nine == "X") || (doc.data().One == "X" && doc.data().Four == "X" && doc.data().Seven == "X") || (doc.data().Two == "X" && doc.data().Five == "X" && doc.data().Eight == "X") || (doc.data().Three == "X" && doc.data().Six == "X" && doc.data().Nine == "X") || (doc.data().One == "X" && doc.data().Five == "X" && doc.data().Nine == "X") || (doc.data().Three == "X" && doc.data().Five == "X" && doc.data().Seven == "X")) {
-                    window.alert("Player Two Won");
-                    Restart.style.display = "block";
-                    count = 0;
-                } else if (doc.data().One !== "" && doc.data().Two !== "" && doc.data().Three !== "" && doc.data().Four !== "" && doc.data().Five !== "" && doc.data().Six !== "" && doc.data().Seven !== "" && doc.data().Eight !== "" && doc.data().Nine !== "") {
-                    window.alert("It's a draw");
-                    Restart.style.display = "block";
-                    count = 0;
-                }
             });
         }, "100")
         eventListener(One);
