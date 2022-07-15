@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title> Tic Tac Toe Lobby </title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="styles/tictactoe.css">
+    </head>
+    <body>
+        <div id = "NavBar">
+            <h2 id = "Website"> My Website </h2>
+            <div id = "NavLinks"> 
+                <h2><a href="index.html"> Home </a></h2>
+                <h2><a href="projects.html"> Projects </a></h2>
+                <h2><a href="tictactoe.html"> Tic Tac Toe </a></h2>
+            </div>
+        </div>
+        <div id = "Game">
+            <button id = "CreateGame"> Create Game </button>
+            <button id = "JoinGame"> Join Game </button>
+        </div>
+    </body>
+    <script type = "module">
+        import {
+            initializeApp
+            } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-app.js";
+        import {
+        getAnalytics
+        } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-analytics.js";
+        const firebaseConfig = {
+              apiKey: "AIzaSyCxNlTqgzmmPs-xsIRQ3FV6ikS4uszpzeU",
+              authDomain: "tictactoe-46298.firebaseapp.com",
+              projectId: "tictactoe-46298",
+              storageBucket: "tictactoe-46298.appspot.com",
+              messagingSenderId: "360442149031",
+              appId: "1:360442149031:web:636ca38d575b91ccd1c382",
+              measurementId: "G-W2EFTY16RX"
+        };
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        var db = getFirestore();
+        import {
+            getFirestore, doc, getDoc, setDoc, collection, addDoc, updateDoc, deleteDoc, deleteField, query, where, getDocs
+        } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-firestore.js";
+        var CreateGame = document.getElementById("CreateGame");
+        function createGameID () {
+            var GameID = "";
+            var characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789";
+            for (var i = 0; i < 10; i++) {
+                var random = Math.random() * 61;
+                GameID = GameID + characters.charAt(random);
+            }
+            return GameID;
+        }
+        CreateGame.addEventListener("click", async function() {
+            var id = createGameID();
+            var ref = doc(db, 'GameID', id);
+            const docRef = await setDoc (
+                ref, {
+                    GameID: id
+                }
+            )
+            window.location.href = "http://127.0.0.1:" + location.port + "/tictactoegame.html?gameID=" + id;
+        })
+        JoinGame.addEventListener("click", async function() {
+            var code = window.prompt("Enter Code", "");
+            var found = false;
+            const q = query(collection(db, "GameID"));
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {  
+                if (doc.id === code) {
+                    window.location.href = "http://127.0.0.1:" + location.port + "/tictactoegame.html?gameID=" + code;
+                    found = true;
+                }
+            });
+            if(found == false) {
+                window.alert("Game Not Found");
+            }
+        })
+    </script>
+</html>

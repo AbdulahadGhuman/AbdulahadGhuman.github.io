@@ -10,8 +10,9 @@
         <div id = "NavBar">
             <h2 id = "Website"> My Website </h2>
             <div id = "NavLinks"> 
-                <h2><a href="homepage.html"> Home </a></h2>
+                <h2><a href="index.html"> Home </a></h2>
                 <h2><a href="projects.html"> Projects </a></h2>
+                <h2><a href="tictactoe.html"> Tic Tac Toe </a></h2>
             </div>
         </div>
         <main>
@@ -47,34 +48,4 @@
             </ul>
         </div>
     </body>
-    <script type="application/javascript">
-        var IPAddress;
-        function getIP(json) {
-            IPAddress = json.ip;
-        }
-    </script>
-    <script type="application/javascript" src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
-    <script type = "module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-analytics.js";
-        const firebaseConfig = {
-            apiKey: "AIzaSyCRRlRZwnpAoNIB1D7Cy1_bUidW5sMh4zk",
-            authDomain: "iplogging-2f340.firebaseapp.com",
-            projectId: "iplogging-2f340",
-            storageBucket: "iplogging-2f340.appspot.com",
-            messagingSenderId: "1034709903457",
-            appId: "1:1034709903457:web:eeb7f1fde7090e6046e220",
-            measurementId: "G-PV65Q6NW97"
-        };
-        import { getFirestore, doc, getDoc, setDoc, collection, addDoc, updateDoc, deleteDoc, deleteField, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-firestore.js";
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-        const db = getFirestore();
-        var ref = collection(db, 'IPAddresses');
-        const docRef = await addDoc (
-            ref, {
-                IPAddress: IPAddress,
-            }
-        )
-    </script>
 </html>

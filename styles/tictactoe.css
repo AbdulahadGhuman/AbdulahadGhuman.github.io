@@ -1,0 +1,47 @@
+html {
+    background-image: url(../images/background.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+body {
+    margin: 0px;
+}
+#NavBar {
+    background-color: #1f1f1f;
+    width: 100%;
+    overflow: auto;
+    margin-top: 0px;
+}
+h2 {
+    color: white;
+    display: inline-block;
+    margin-top: 0px;
+    margin-bottom: 0px;    
+}
+#NavLinks {
+    float: right;
+    margin: 0 auto;
+}
+a {
+    color: white;
+    display: block;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+#Website {
+    padding: 14px 16px;
+}
+#Game {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 100px;
+}
+button {
+    width: 100px;
+    height: 50px;
+    margin: 20px;
+    background-color: #aa42f5;
+}

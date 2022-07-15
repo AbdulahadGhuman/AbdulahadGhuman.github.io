@@ -1,0 +1,160 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title> Tic Tac Toe </title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="styles/tictactoegame.css">
+    </head>
+    <body>
+        <div id = "NavBar">
+            <h2 id = "Website"> My Website </h2>
+            <div id = "NavLinks"> 
+                <h2><a href="index.html"> Home </a></h2>
+                <h2><a href="projects.html"> Projects </a></h2>
+                <h2><a href="tictactoe.html"> Tic Tac Toe </a></h2>
+            </div>
+        </div>
+        <div id = "Board">
+            <button id = "One"> </button>
+            <button id = "Two"> </button>
+            <button id = "Three"> </button>
+            <button id = "Four"> </button>
+            <button id = "Five"> </button>
+            <button id = "Six"> </button>
+            <button id = "Seven"> </button>
+            <button id = "Eight"> </button>
+            <button id = "Nine"> </button>
+            <button id = "Restart" hidden> Restart </button>
+        </div>
+    </body>
+    <script type = "module">
+        import {
+            initializeApp
+            } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-app.js";
+        import {
+        getAnalytics
+        } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-analytics.js";
+        const firebaseConfig = {
+              apiKey: "AIzaSyCxNlTqgzmmPs-xsIRQ3FV6ikS4uszpzeU",
+              authDomain: "tictactoe-46298.firebaseapp.com",
+              projectId: "tictactoe-46298",
+              storageBucket: "tictactoe-46298.appspot.com",
+              messagingSenderId: "360442149031",
+              appId: "1:360442149031:web:636ca38d575b91ccd1c382",
+              measurementId: "G-W2EFTY16RX"
+        };
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        var db = getFirestore();
+        var check;
+        import {
+            getFirestore, doc, getDoc, setDoc, collection, addDoc, updateDoc, deleteDoc, deleteField, query, where, getDocs
+        } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-firestore.js";
+        var count = 0;
+        var One = document.getElementById("One");
+        var Two = document.getElementById("Two");
+        var Three = document.getElementById("Three");
+        var Four = document.getElementById("Four");
+        var Five = document.getElementById("Five");
+        var Six = document.getElementById("Six");
+        var Seven = document.getElementById("Seven");
+        var Eight = document.getElementById("Eight");
+        var Nine = document.getElementById("Nine");
+        var Restart = document.getElementById("Restart");
+        var ref = doc(db, '/GameID/' + window.location.href.substring(window.location.href.length - 10) + '/Game/', "NewGame");
+        ClearBoard();
+        function eventListener (newButton) {
+            newButton.addEventListener("click", async function() {
+                var placed = false;
+                const q = query(collection(db, "/GameID/" + window.location.href.substring(window.location.href.length - 10) + "/Game"));
+                const querySnapshot = await getDocs(q);
+                querySnapshot.forEach((doc) => {  
+                    count = doc.data().Count;
+                });
+                if(count % 2 == 0 && newButton.textContent == "") {
+                    const docRef = await updateDoc (
+                        ref, {
+                            [newButton.id] : "O"
+                        }
+                    )
+                    placed = true;
+                } else if (count % 2 == 1 && newButton.textContent == "") {
+                    const docRef = await updateDoc (
+                        ref, {
+                            [newButton.id] : "X"
+                        }
+                    )
+                    placed = true;
+                }
+                if(placed == true) {
+                    count = count + 1;
+                    const docRef = await updateDoc (
+                        ref, {
+                            Count: count
+                        }
+                    )
+                }
+            })
+        }
+        async function ClearBoard () {
+            const docRef = await setDoc (
+                ref, {
+                    One: "",
+                    Two: "",
+                    Three: "",
+                    Four: "",
+                    Five: "",
+                    Six: "",
+                    Seven: "",
+                    Eight: "",
+                    Nine: "",
+                    Count: 0
+                }
+            )
+        }
+        Restart.addEventListener("click", function() { 
+            ClearBoard();
+            Restart.style.display = "none";
+        })
+        setInterval(async function(){ 
+            const q = query(collection(db, "/GameID/" + window.location.href.substring(window.location.href.length - 10) + "/Game"));
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {  
+                One.textContent = doc.data().One;
+                Two.textContent = doc.data().Two;
+                Three.textContent = doc.data().Three;
+                Four.textContent = doc.data().Four;
+                Five.textContent = doc.data().Five;
+                Six.textContent = doc.data().Six;
+                Seven.textContent = doc.data().Seven;
+                Eight.textContent = doc.data().Eight;
+                Nine.textContent = doc.data().Nine;
+            });
+            querySnapshot.forEach((doc) => {  
+                if((doc.data().One == "O" && doc.data().Two == "O" && doc.data().Three == "O") || (doc.data().Four == "O" && doc.data().Five == "O" && doc.data().Six == "O") || (doc.data().Seven == "O" && doc.data().Eight == "O" && doc.data().Nine == "O") || (doc.data().One == "O" && doc.data().Four == "O" && doc.data().Seven == "O") || (doc.data().Two == "O" && doc.data().Five == "O" && doc.data().Eight == "O") || (doc.data().Three == "O" && doc.data().Six == "O" && doc.data().Nine == "O") || (doc.data().One == "O" && doc.data().Five == "O" && doc.data().Nine == "O") || (doc.data().Three == "O" && doc.data().Five == "O" && doc.data().Seven == "O")) {
+                    window.alert("Player One Won");
+                    Restart.style.display = "block";
+                    count = 0;
+                } else if ((doc.data().One == "X" && doc.data().Two == "X" && doc.data().Three == "X") || (doc.data().Four == "X" && doc.data().Five == "X" && doc.data().Six == "X") || (doc.data().Seven == "X" && doc.data().Eight == "X" && doc.data().Nine == "X") || (doc.data().One == "X" && doc.data().Four == "X" && doc.data().Seven == "X") || (doc.data().Two == "X" && doc.data().Five == "X" && doc.data().Eight == "X") || (doc.data().Three == "X" && doc.data().Six == "X" && doc.data().Nine == "X") || (doc.data().One == "X" && doc.data().Five == "X" && doc.data().Nine == "X") || (doc.data().Three == "X" && doc.data().Five == "X" && doc.data().Seven == "X")) {
+                    window.alert("Player Two Won");
+                    Restart.style.display = "block";
+                    count = 0;
+                } else if (doc.data().One !== "" && doc.data().Two !== "" && doc.data().Three !== "" && doc.data().Four !== "" && doc.data().Five !== "" && doc.data().Six !== "" && doc.data().Seven !== "" && doc.data().Eight !== "" && doc.data().Nine !== "") {
+                    window.alert("It's a draw");
+                    Restart.style.display = "block";
+                    count = 0;
+                }
+            });
+        }, "100")
+        eventListener(One);
+        eventListener(Two);
+        eventListener(Three);
+        eventListener(Four);
+        eventListener(Five);
+        eventListener(Six);
+        eventListener(Seven);
+        eventListener(Eight);
+        eventListener(Nine);
+    </script>
+</html>
